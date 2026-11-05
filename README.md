@@ -199,3 +199,4 @@ The client application will be accessible at `http://localhost:5173`.
 * **CORS Validation**: Cross-Origin Resource Sharing is locked down to designated client origins.
 * **Safe Authentication Transmission**: Bearer tokens are exchanged through standard HTTP `Authorization` headers.
 * **Client-side Route Protection**: `<ProtectedRoute>` component prevents unauthorized access to protected paths.
+
