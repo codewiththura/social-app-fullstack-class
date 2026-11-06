@@ -13,6 +13,25 @@ export function AuthProvider({ children }) {
     return token ? token : null;
   });
 
+  // Function to register a new user account
+  async function register(userData) {
+    const response = await fetch(`${API_URL}/auth/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Registration failed. Please check your details.");
+    }
+
+    return data;
+  }
+
   async function login(email, password) {
     const response = await fetch(`${API_URL}/auth/login`, {
       method: "POST",
@@ -22,12 +41,18 @@ export function AuthProvider({ children }) {
       body: JSON.stringify({ email, password }),
     });
 
-    if (!response.ok) return null;
-    const { token, user } = await response.json();
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Invalid email or password");
+    }
+
+    const { token, user } = data;
     setUser(user);
     setToken(token);
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("token", token);
+    return user;
   }
 
   async function logout() {
@@ -51,6 +76,7 @@ export function AuthProvider({ children }) {
   const value = {
     user,
     login,
+    register,
     isAuthenticated: Boolean(user),
     logout,
   };

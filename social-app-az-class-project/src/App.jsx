@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import CreatePost from "./pages/CreatePost";
 import DetailPost from "./pages/DetailPost";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import { AuthProvider } from "./context/AuthContext";
 import { SavedPosts } from "./pages/SavedPost";
 import { PostProvider } from "./context/PostContext";
@@ -45,6 +46,7 @@ function App() {
               }
             />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

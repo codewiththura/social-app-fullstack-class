@@ -14,7 +14,7 @@ function PostCard({
   initialIsLiked,
   initialIsSaved,
 }) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const { toggleLike, toggleSave, deletePost } = usePosts();
   const [likes, setLikes] = useState(likeCounts);
   const [isLiked, setIsLiked] = useState(initialIsLiked);
@@ -62,7 +62,7 @@ function PostCard({
       <div className="flex justify-between items-center mb-2">
         <p className="text-xs text-gray-500">Posted by {author?.name}</p>
 
-        {isAuthenticated && (
+        {isAuthenticated && user?._id === author?._id && (
           <div className="flex gap-2 text-xs">
             <button
               onClick={() => navigate(`/edit-post/${id}`)}

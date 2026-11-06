@@ -64,7 +64,7 @@ Social App Demo/
         ├── App.jsx                 # Route configurations and context providers
         ├── components/             # Reusable UI components (Navbar, PostCard, Comments)
         ├── context/                # React contexts (AuthContext, PostContext)
-        ├── pages/                  # Route views (Home, Login, CreatePost, Detail, Saved)
+        ├── pages/                  # Route views (Home, Login, Register, CreatePost, Detail, Saved)
         └── services/               # HTTP client wrapper (authFetch)
 ```
 

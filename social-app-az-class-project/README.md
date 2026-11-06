@@ -26,6 +26,7 @@ A modern, responsive, component-driven Single Page Application (SPA) built with 
 ## Overview & Key Features
 
 - **Authentication & Session Persistence**:
+  - User registration (`/register`) with client-side validation and automatic login upon creation.
   - Seamless user login with JWT verification.
   - Automatic local session persistence (`localStorage`) across page refreshes.
   - Centralized logout clearing authentication tokens and user state.
@@ -67,6 +68,7 @@ The application is structured following modern frontend software engineering pri
               - / (Home)               - /create-post               - * (NotFound)
               - /post/:id              - /saved
               - /login                 - /edit-post/:id
+              - /register
 ```
 
 ### Core Architectural Patterns:
@@ -112,7 +114,7 @@ social-app-az-class-project/
     │   ├── PostCard.jsx       # Card displaying post details, likes, saves
     │   └── ProtectedRoute.jsx # Route barrier redirecting unauthenticated users
     ├── context/               # React Context Providers for global state
-    │   ├── AuthContext.jsx    # User login, logout, and token management
+    │   ├── AuthContext.jsx    # User registration, login, logout, and token management
     │   └── PostContext.jsx    # Post collections, liking, saving, deleting
     ├── pages/                 # Full-page route views
     │   ├── CreatePost.jsx     # Form to publish new post with image upload
@@ -120,6 +122,7 @@ social-app-az-class-project/
     │   ├── EditPost.jsx       # Form to update existing post and replace image
     │   ├── Home.jsx           # Public feed with live search bar
     │   ├── Login.jsx          # User login page with demo credentials
+    │   ├── Register.jsx       # Beginner-friendly user registration form
     │   ├── NotFound.jsx       # 404 fallback page
     │   └── SavedPost.jsx      # Filtered collection of user-bookmarked posts
     └── services/              # External service integrations
@@ -193,6 +196,7 @@ Routing is implemented using **React Router**. Route access is divided into Publ
 | `/`              | `Home`         |    No    | Public feed of recent posts with search functionality |
 | `/post/:id`      | `DetailPost`   |    No    | Detailed view of a post and its associated comments   |
 | `/login`         | `Login`        |    No    | Authentication form with quick-fill demo credentials  |
+| `/register`      | `Register`     |    No    | New user registration form with auto-login flow       |
 | `/create-post`   | `CreatePost`   | **Yes**  | Form to create a new post with image upload           |
 | `/edit-post/:id` | `EditPost`     | **Yes**  | Form to edit post content and replace attached photo  |
 | `/saved`         | `SavedPosts`   | **Yes**  | Displays bookmarked posts marked by the user          |
@@ -221,9 +225,10 @@ Global state is divided into two primary React Context domains:
 Located in [src/context/AuthContext.jsx](file:///src/context/AuthContext.jsx), this context provides user authentication state and controls:
 
 - **State Properties**:
-  - `user`: Current logged-in user profile object (`_id`, `name`, `email`, `avatarUrl`) or `null`.
+  - `user`: Current logged-in user profile object (`_id`, `name`, `username`, `email`, `bio`) or `null`.
   - `isAuthenticated`: Derived boolean flag (`Boolean(user)`).
 - **Methods**:
+  - `register(userData)`: Sends `{ name, username, email, password, bio }` to `${API_URL}/auth/register` to create a new user account.
   - `login(email, password)`: Sends credentials to `${API_URL}/auth/login`, stores token and user in `localStorage`, and updates React state.
   - `logout()`: Posts to `${API_URL}/auth/logout`, purges `localStorage`, and clears context state.
 - **Custom Hook**:

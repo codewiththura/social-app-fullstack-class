@@ -214,7 +214,7 @@ app.get("/users", async (req, res) => {
     if (req.query.name) {
         const users = await User.findOne({ name: req.query.name });
     }
-    const users = await User.find({});
+    const users = await User.find({}).sort({ createdAt: -1 }).lean();
     res.json(users);
 })
 
@@ -248,7 +248,7 @@ app.post("/posts", authenticate, async (req, res) => {
 
 app.get("/posts", identifyUser, async (req, res) => {
     const posts = await Post.find({})
-        .populate("author", "name username email").lean();
+        .populate("author", "name username email").sort({ createdAt: -1 }).lean();
 
     const formattedPosts = posts.map(p => {
         return {
